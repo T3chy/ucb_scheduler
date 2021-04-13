@@ -15,7 +15,7 @@
 #include <unordered_map>
 #include <iostream>
 #include <string>
-#include "Schedule.h"
+#include "Schedule.cpp"
 using namespace std;
 
 
@@ -24,6 +24,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
+	Schedule s;
     if (argc)
     {
         fmt::print("hello world from {}!", argv[0]);

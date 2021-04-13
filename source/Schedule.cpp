@@ -1,4 +1,7 @@
 #include "Schedule.h"
+Schedule::Schedule(){
+	sem_idx = 0;
+}
 float Schedule::parse_grade_input(string input) {
 		if (letter_grade_to_gpa.find(input) != letter_grade_to_gpa.end())
 			return letter_grade_to_gpa[input];

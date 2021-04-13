@@ -11,9 +11,9 @@
  * @brief main loop, text-based interaction
  * @return nada
  */
-#define N_SEMESTERS 8
 #ifndef Schedule_H
 #define Schedule_H
+#define N_SEMESTERS 8
 #include <iostream>
 #include <string>
 #include <unordered_map>
@@ -28,7 +28,7 @@ struct Course {
 	float units;
 	float grade; // in gpa points version
 	string m_notes;
-	Course * prereqs[];
+	Course * prereqs[5]; //damn you, ISO C++!!
 	string toString(){
 	string tmp = "";
 
@@ -72,12 +72,13 @@ class Schedule {
 	private:
 		int sem_idx;
 		float gpa;
-		Semester m_sem_list[N_SEMESTERS];
 		void enter_final_grades();
+		Semester m_sem_list[N_SEMESTERS];
 		static float parse_grade_input(string input);
 		void calculate_sem_gpa();
 		void recalculate_overall_gpa();
 	public:
+		Schedule();
 		float getGpa();
 		void add_sem(Semester s, int idx);
 		void finish_sem();
