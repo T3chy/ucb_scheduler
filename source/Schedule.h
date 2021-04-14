@@ -59,13 +59,13 @@ struct Course {
 		   switch(prefix) {
 		      case cs:
 			 tmp = "cs";
+			 break;
 		      case philo:
 			 tmp = "philo";
+			 break;
 		      default:
 			 throw "Invalid course prefix";
 		   }
-
-			cout << tmp + to_string(course_number) + modifier;
 			return tmp + to_string(course_number) + modifier;
 		}
 };
@@ -73,13 +73,24 @@ struct Semester {
 	float sem_units;
 	bool complete;
 	float sem_gpa;
-	Course taking[5]; // impossible to take more than 5 courses per sem at berk unless you bend the rules
+	vector<Course> taking ; // impossible to take more than 5 courses per sem at berk unless you bend the rules
 	Semester(){
 		sem_units = 0;
 		complete = false;
 		sem_gpa = 0;
-		for (int i=0; i > 5; i++) //ugly
-			taking[i] = Course();
+	}
+	Semester(vector<Course> t){
+		sem_units = 0;
+		complete = false;
+		sem_gpa = 0;
+		taking = t;
+	}
+	string toString(){
+		string tmp = "";
+		for (int i=0; i < taking.size(); i++)
+			tmp += taking[i].toString() + "\n";
+
+		return tmp;
 	}
 
 
@@ -92,13 +103,14 @@ class Schedule {
 		int sem_idx;
 		float gpa;
 		void enter_final_grades();
-		Semester m_sem_list[N_SEMESTERS];
+		vector<Semester> m_sem_list;
 		static float parse_grade_input(string input);
 		void calculate_sem_gpa();
 		void recalculate_overall_gpa();
 	public:
 	/* Schedule(); */
 		float getGpa();
+		void add_sem(Semester s);
 		void add_sem(Semester s, int idx);
 		void finish_sem();
 };

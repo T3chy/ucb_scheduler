@@ -56,7 +56,13 @@ void Schedule::enter_final_grades(){
 }
 
 void Schedule::add_sem(Semester s, int idx){
-	m_sem_list[idx] = s;
+	if (idx > m_sem_list.size() - 1)
+		throw "you've tried to reassign a semester that doesn't exist! Please use the single-argument constructor to add a new semester";
+	else
+		m_sem_list[idx] = s;
+}
+void Schedule::add_sem(Semester s){
+	m_sem_list.push_back(s);
 }
 
 void Schedule::finish_sem(){
