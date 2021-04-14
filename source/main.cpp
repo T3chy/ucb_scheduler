@@ -3,7 +3,7 @@
  */
 // The previous block is needed in every file for which you want to generate documentation
 
-#include <fmt/format.h>
+/* #include <fmt/format.h> */
 
 // This should be in the headers
 
@@ -15,7 +15,8 @@
 #include <unordered_map>
 #include <iostream>
 #include <string>
-#include "Schedule.cpp"
+#include "Schedule.h"
+#include "cs.h"
 using namespace std;
 
 
@@ -24,10 +25,10 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
+
 	Schedule s;
-    if (argc)
-    {
-        fmt::print("hello world from {}!", argv[0]);
-    }
+	cout << s.getGpa() << endl;
+	cout << cs61a.isUpperDivision() << endl;
+	cout << cs162.isUpperDivision() << endl;
     return 0;
 }

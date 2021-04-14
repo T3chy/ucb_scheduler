@@ -3,7 +3,7 @@
  */
 // The previous block is needed in every file for which you want to generate documentation
 
-#include <fmt/format.h>
+/* #include <fmt/format.h> */
 
 // This should be in the headers
 
@@ -17,55 +17,74 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include<vector>
 
 using namespace std;
 
 enum course_prefix {cs, philo};
 struct Course {
-	course_prefix prefix;
-	int course_number;
-	bool div;
-	float units;
-	float grade; // in gpa points version
-	string m_notes;
-	Course * prereqs[5]; //damn you, ISO C++!!
-	string toString(){
-	string tmp = "";
+		bool nocourse;
+		float grade; // in gpa points version
+		course_prefix prefix;
+		int course_number;
+		string modifier;
+		float units;
+		string m_notes;
+		vector<Course> prereqs;
+		bool isUpperDivision(){
+			return (course_number >= 100);
+		}
+		Course(){
+			nocourse = true;
+		}
 
-	   switch(prefix) {
-	      case cs:
-		 tmp = "cs";
-	      case philo:
-		 tmp = "philo";
-	      default:
-		 throw "Invalid course prefix";
-	   }
+		Course(course_prefix p, int c_n, const char * mod, float u, const char * m_n) {
+			prefix = p;
+			course_number = c_n;
+			modifier = mod;
+			units = u;
+			nocourse = false;
+			m_notes = m_n;
+		}
+		Course(course_prefix p, int c_n, const char * mod, float u, const char * m_n, vector<Course> prq) {
+			prefix = p;
+			course_number = c_n;
+			modifier = mod;
+			units = u;
+			m_notes = m_n;
+			nocourse = false;
+		}
+		string toString(){
+		   string tmp = "";
+		   switch(prefix) {
+		      case cs:
+			 tmp = "cs";
+		      case philo:
+			 tmp = "philo";
+		      default:
+			 throw "Invalid course prefix";
+		   }
 
-		return tmp + to_string(course_number);
-	}
+			cout << tmp + to_string(course_number) + modifier;
+			return tmp + to_string(course_number) + modifier;
+		}
 };
 struct Semester {
 	float sem_units;
 	bool complete;
 	float sem_gpa;
 	Course taking[5]; // impossible to take more than 5 courses per sem at berk unless you bend the rules
+	Semester(){
+		sem_units = 0;
+		complete = false;
+		sem_gpa = 0;
+		for (int i=0; i > 5; i++) //ugly
+			taking[i] = Course();
+	}
+
+
 };
 
-unordered_map<string, int> letter_grade_to_gpa = {\
-	{"A+",	4},\
-	{"A",4},\
-	{"A-",	3.7},\
-	{"B+",	3.3},\
-	{"B",3},\
-	{"B-",	2.7},\
-	{"C+",	2.3},\
-	{"C",2},\
-	{"C-",	1.7},\
-	{"D+",	1.3},\
-	{"D",1},\
-	{"D-",	0.7},\
-	{"F",0},\
-};
 
 class Schedule {
 
@@ -78,7 +97,7 @@ class Schedule {
 		void calculate_sem_gpa();
 		void recalculate_overall_gpa();
 	public:
-		Schedule();
+	/* Schedule(); */
 		float getGpa();
 		void add_sem(Semester s, int idx);
 		void finish_sem();
