@@ -27,11 +27,7 @@ int main(int argc, char* argv[])
 {
 
 	Schedule s;
-	cout << s.getGpa() << endl;
-	cout << cs61a.isUpperDivision() << endl;
-	cout << cs162.isUpperDivision() << endl;
-	cout << s1.toString().c_str();
+	cout << csa["cs61a"].isUpperDivision() << endl;
 
-	s.add_sem(s1);
     return 0;
 }
