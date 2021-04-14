@@ -7,7 +7,8 @@ endif()
 
 project("Berk_Scheduler")
 
-add_executable("${PROJECT_NAME}" "main.cpp")
+# file(GLOB SOURCES "*.cpp")
+add_executable("${PROJECT_NAME}" "main.cpp" "Schedule.cpp")
 
 
 # install(TARGETS "${PROJECT_NAME}" DESTINATION bin)

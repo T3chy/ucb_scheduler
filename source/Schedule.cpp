@@ -17,9 +17,9 @@ unordered_map<string, int> letter_grade_to_gpa = {\
 };
 
 
-/* Schedule::Schedule(){ */
-/* 	sem_idx = 0; */
-/* } */
+Schedule::Schedule(){
+	sem_idx = 0;
+}
 float Schedule::parse_grade_input(string input) {
 		if (letter_grade_to_gpa.find(input) != letter_grade_to_gpa.end())
 			return letter_grade_to_gpa[input];
@@ -52,7 +52,8 @@ float Schedule::getGpa() {
 	return gpa;
 }
 void Schedule::enter_final_grades(){
-	throw "not implemented!";
+	cout << sem_idx << endl;
+	m_sem_list[sem_idx].sem_gpa = 4.1;
 }
 
 void Schedule::add_sem(Semester s, int idx){
@@ -77,18 +78,52 @@ void Schedule::finish_sem(){
 	sem_idx++;
 
 }
-Course[] Schedule::can_take (Course c, int sem_idx){
-	vector<Course> taken= c.prereqs;
-	for (int i=0; i < taken.size(); i ++)
-		for (int j=0; i < sem_idx -1; j++ )
+bool Schedule::can_take (Course c){
+	vector<Course> taken = {};
+	for (int i=0; i < c.prereqs.size(); i ++)
+		for (int j=0; j < sem_idx -1; j++ )
 			for ( int k=0; k < m_sem_list[j].taking.size(); k++)
-				if ( taken[i] == m_sem_list[j].taking[k] )
-					taken.erase(i--);
+				if ( c.prereqs[i] == m_sem_list[j].taking[k] )
+					taken.push_back(c.prereqs[i]);
+	return taken.size() == c.prereqs.size();
 }
-bool Schedule::can_take(Course c){
-	for (int i=0; i < sem_idx -1 )
+bool Schedule::can_take (Course c, int sem_idx){
+	vector<Course> taken = {};
+	for (int i=0; i < c.prereqs.size(); i ++)
+		for (int j=0; j < sem_idx -1; j++ )
+			for ( int k=0; k < m_sem_list[j].taking.size(); k++)
+				if ( c.prereqs[i] == m_sem_list[j].taking[k] )
+					taken.push_back(c.prereqs[i]);
+	return taken.size() == c.prereqs.size();
 }
+Course::Course(course_prefix p, int c_n, char const * mod, float u, char const * m_n) {
 
-
-
+	prefix = p;
+	course_number = c_n;
+	modifier = mod;
+	units = u;
+	nocourse = false;
+	m_notes = m_n;
+};
+Course::Course(course_prefix p, int c_n, char const * mod, float u, char const * m_n, vector<Course> prq) {
+	prefix = p;
+	course_number = c_n;
+	modifier = mod;
+	units = u;
+	m_notes = m_n;
+	nocourse = false;
+};
+string Course::toString(){
+   string tmp = "";
+   switch(prefix) {
+      case cs:
+	 tmp = "cs";
+	 break;
+      case philo:
+	 tmp = "philo";
+	 break;
+      default:
+	 throw "Invalid course prefix";
+   }
+	return tmp + to_string(course_number) + modifier;
 }

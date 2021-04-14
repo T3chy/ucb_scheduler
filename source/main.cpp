@@ -28,6 +28,11 @@ int main(int argc, char* argv[])
 
 	Schedule s;
 	cout << csa["cs61a"].isUpperDivision() << endl;
+	Semester s1 = Semester({csa["cs61a"]});
+	cout << s1.add_course(csa["cs61a"]) << endl;
+	s.add_sem(s1);
+	s.finish_sem();
+
 
     return 0;
 }

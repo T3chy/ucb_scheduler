@@ -22,7 +22,8 @@
 using namespace std;
 
 enum course_prefix {cs, philo};
-struct Course {
+class Course {
+	public:
 		bool nocourse;
 		float grade; // in gpa points version
 		course_prefix prefix;
@@ -31,45 +32,18 @@ struct Course {
 		float units;
 		string m_notes;
 		vector<Course> prereqs;
-		bool isUpperDivision(){
-			return (course_number >= 100);
+		bool isUpperDivision(){return (course_number >= 100);}
+		Course(){nocourse = true;}
+Course(course_prefix p, int c_n, char const * mod, float u, char const * m_n);
+		Course(course_prefix p, int c_n, char const * mod, float u, char const * m_n, vector<Course> prq);
+		bool operator ==(const Course compare_to){
+			return (prefix == compare_to.prefix && course_number == compare_to.course_number && modifier== compare_to.modifier);
 		}
-		Course(){
-			nocourse = true;
-		}
-
-		Course(course_prefix p, int c_n, const char * mod, float u, const char * m_n) {
-			prefix = p;
-			course_number = c_n;
-			modifier = mod;
-			units = u;
-			nocourse = false;
-			m_notes = m_n;
-		}
-		Course(course_prefix p, int c_n, const char * mod, float u, const char * m_n, vector<Course> prq) {
-			prefix = p;
-			course_number = c_n;
-			modifier = mod;
-			units = u;
-			m_notes = m_n;
-			nocourse = false;
-		}
-		string toString(){
-		   string tmp = "";
-		   switch(prefix) {
-		      case cs:
-			 tmp = "cs";
-			 break;
-		      case philo:
-			 tmp = "philo";
-			 break;
-		      default:
-			 throw "Invalid course prefix";
-		   }
-			return tmp + to_string(course_number) + modifier;
-		}
+		string toString();
 };
-struct Semester {
+
+class Semester {
+	public:
 	float sem_units;
 	bool complete;
 	float sem_gpa;
@@ -92,12 +66,20 @@ struct Semester {
 
 		return tmp;
 	}
+	int add_course(Course c){ // TODO check previous semesters / warn if retaking and previously passed
+		for (int i=0; i < taking.size(); i++)
+			if (taking[i] == c)
+				return -1;
+		taking.push_back(c);
+		return 0;
+	}
+
+
 
 
 };
 
-
-class Schedule {
+class Schedule { // for some reason default constructor ( or something else? ) sets sem_idx to 1 fix that
 
 	private:
 		int sem_idx;
@@ -108,8 +90,8 @@ class Schedule {
 		void calculate_sem_gpa();
 		void recalculate_overall_gpa();
 	public:
-	/* Schedule(); */
 		bool can_take(Course c);
+		bool can_take(Course c, int sem_ifx);
 		float getGpa();
 		void add_sem(Semester s);
 		void add_sem(); // current idx
