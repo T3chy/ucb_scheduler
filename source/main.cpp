@@ -32,5 +32,6 @@ int main(int argc, char* argv[])
 	cout << cs162.isUpperDivision() << endl;
 	cout << s1.toString().c_str();
 
+	s.add_sem(s1);
     return 0;
 }
