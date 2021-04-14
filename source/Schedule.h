@@ -109,9 +109,11 @@ class Schedule {
 		void recalculate_overall_gpa();
 	public:
 	/* Schedule(); */
+		bool can_take(Course c);
 		float getGpa();
 		void add_sem(Semester s);
-		void add_sem(Semester s, int idx);
+		void add_sem(); // current idx
+		void add_sem(Semester s, int idx); // future sem
 		void finish_sem();
 };
 #endif

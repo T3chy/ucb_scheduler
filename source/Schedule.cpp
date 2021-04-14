@@ -77,3 +77,18 @@ void Schedule::finish_sem(){
 	sem_idx++;
 
 }
+Course[] Schedule::can_take (Course c, int sem_idx){
+	vector<Course> taken= c.prereqs;
+	for (int i=0; i < taken.size(); i ++)
+		for (int j=0; i < sem_idx -1; j++ )
+			for ( int k=0; k < m_sem_list[j].taking.size(); k++)
+				if ( taken[i] == m_sem_list[j].taking[k] )
+					taken.erase(i--);
+}
+bool Schedule::can_take(Course c){
+	for (int i=0; i < sem_idx -1 )
+}
+
+
+
+}
