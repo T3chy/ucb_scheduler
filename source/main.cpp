@@ -16,7 +16,7 @@
 #include <iostream>
 #include <string>
 #include "Schedule.h"
-#include "cs.h"
+#include "cs.cpp"
 using namespace std;
 
 
@@ -27,11 +27,14 @@ int main(int argc, char* argv[])
 {
 
 	Schedule s;
-	cout << csa["cs61a"].isUpperDivision() << endl;
-	Semester s1 = Semester({csa["cs61a"]});
-	cout << s1.add_course(csa["cs61a"]) << endl;
+
+	unordered_map<const char *, Course> c = init_cs();
+	Semester s1 = Semester({c["cs61b"]});
 	s.add_sem(s1);
 	s.finish_sem();
+	Semester s2 = Semester({c["cs61a"]});
+	cout << s.can_take(c["cs162"]) << endl;
+	s.add_sem(s2);
 
 
     return 0;

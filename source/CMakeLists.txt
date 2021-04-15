@@ -9,6 +9,7 @@ project("Berk_Scheduler")
 
 # file(GLOB SOURCES "*.cpp")
 add_executable("${PROJECT_NAME}" "main.cpp" "Schedule.cpp")
+set_property(TARGET "${PROJECT_NAME}" PROPERTY CXX_STANDARD 17)
 
 
 # install(TARGETS "${PROJECT_NAME}" DESTINATION bin)

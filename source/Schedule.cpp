@@ -17,9 +17,9 @@ unordered_map<string, int> letter_grade_to_gpa = {\
 };
 
 
-Schedule::Schedule(){
-	sem_idx = 0;
-}
+/* Schedule::Schedule(){ */
+/* 	sem_idx = 0; */
+/* } */
 float Schedule::parse_grade_input(string input) {
 		if (letter_grade_to_gpa.find(input) != letter_grade_to_gpa.end())
 			return letter_grade_to_gpa[input];
@@ -52,7 +52,6 @@ float Schedule::getGpa() {
 	return gpa;
 }
 void Schedule::enter_final_grades(){
-	cout << sem_idx << endl;
 	m_sem_list[sem_idx].sem_gpa = 4.1;
 }
 
@@ -83,8 +82,12 @@ bool Schedule::can_take (Course c){
 	for (int i=0; i < c.prereqs.size(); i ++)
 		for (int j=0; j < sem_idx -1; j++ )
 			for ( int k=0; k < m_sem_list[j].taking.size(); k++)
-				if ( c.prereqs[i] == m_sem_list[j].taking[k] )
+				if ( c.prereqs[i] == m_sem_list[j].taking[k] ) {
+					cout << c.prereqs[i].course_number << endl;
 					taken.push_back(c.prereqs[i]);
+				}
+	cout << "TAKEN SIZE: " << taken.size() << endl;
+	cout << "REQ SIZE: " << c.prereqs.size() << endl;
 	return taken.size() == c.prereqs.size();
 }
 bool Schedule::can_take (Course c, int sem_idx){
@@ -112,6 +115,7 @@ Course::Course(course_prefix p, int c_n, char const * mod, float u, char const *
 	units = u;
 	m_notes = m_n;
 	nocourse = false;
+	prereqs = prq;
 };
 string Course::toString(){
    string tmp = "";
