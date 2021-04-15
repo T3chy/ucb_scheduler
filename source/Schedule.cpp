@@ -82,12 +82,8 @@ bool Schedule::can_take (Course c){
 	for (int i=0; i < c.prereqs.size(); i ++)
 		for (int j=0; j < sem_idx -1; j++ )
 			for ( int k=0; k < m_sem_list[j].taking.size(); k++)
-				if ( c.prereqs[i] == m_sem_list[j].taking[k] ) {
-					cout << c.prereqs[i].course_number << endl;
+				if ( c.prereqs[i] == m_sem_list[j].taking[k] )
 					taken.push_back(c.prereqs[i]);
-				}
-	cout << "TAKEN SIZE: " << taken.size() << endl;
-	cout << "REQ SIZE: " << c.prereqs.size() << endl;
 	return taken.size() == c.prereqs.size();
 }
 bool Schedule::can_take (Course c, int sem_idx){
