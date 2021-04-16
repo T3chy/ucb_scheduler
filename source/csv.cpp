@@ -8,6 +8,7 @@
 #include <sstream> // std::stringstream
 #include <unordered_map>
 #include<string.h>
+// TODO make it not require a blanked column idk why it does that
 
 using namespace std;
 course_prefix string_to_course_prefix(string s) {
