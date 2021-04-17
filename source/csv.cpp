@@ -11,9 +11,9 @@
 using namespace std;
 course_prefix string_to_course_prefix(string s) {
 	const char * tmp = s.c_str();
-	if (strcmp(tmp, "cs")) {
+	if (strcmp(tmp, "cs") == 0) {
 		return cs;
-	} else if (strcmp(tmp, "philo")) {
+	} else if (strcmp(tmp, "philo") == 0) {
 		return philo;
 	} else{
 		throw "invalid prefix!";
@@ -51,7 +51,7 @@ unordered_map<string, Course>  init_course_list(const char * filename){ // maybe
 		while (getline(s, word, ',')) {
 			switch (colIdx++) {
 				case (0):
-					/* cout << "PREFIX " << word << endl; */
+					cout << "PREFIX " << word << endl;
 					prefix = word;
 					break;
 				case (1):
