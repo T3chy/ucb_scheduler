@@ -29,7 +29,6 @@ int main(int argc, char* argv[])
 	Schedule s;
 
 	unordered_map<string, Course> catalog = init_course_list("cs.csv");
-	cout << catalog["cs61a"].toString() << endl;
 	s.catalog = catalog;
 	s.add_sem();
 	s.add_sem();

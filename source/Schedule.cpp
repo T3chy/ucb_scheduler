@@ -62,13 +62,17 @@ vector<Course> Schedule::enter_sem_courses(int idx) {
 		string selection = "";
 		cout << "enter the course ID of the course you'd like to add (e.g cs61a):";
 		cin >> selection;
-		if (can_take(catalog[selection], idx)) { // TODO write try catch here lol
-			courses.push_back(catalog[selection]);
-			cout << "added! " << endl;
+		if (catalog[selection].units != 0) { // null check
+			if (can_take(catalog[selection], idx)) { // TODO write try catch here lol
+				courses.push_back(catalog[selection]);
+				cout << "added! " << endl;
+			} else {
+				cout << "looks like you don't have the prereqs for that one :(" << endl;
+			}
 		} else {
-			cout << "looks like you don't have the prereqs for that one :(" << endl;
+			cout << "looks like that's not a valid course ID :(" << endl;
 		}
-		cout << "Enter another one? [Y/n]" << endl;
+		cout << "Enter another one? [Y/n] ";
 		string tmp = "";
 		cin >> tmp;
 		if (tmp == "N" || tmp == "n")

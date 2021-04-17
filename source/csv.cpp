@@ -51,7 +51,7 @@ unordered_map<string, Course>  init_course_list(const char * filename){ // maybe
 		while (getline(s, word, ',')) {
 			switch (colIdx++) {
 				case (0):
-					cout << "PREFIX " << word << endl;
+					/* cout << "PREFIX " << word << endl; */
 					prefix = word;
 					break;
 				case (1):
