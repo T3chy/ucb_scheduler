@@ -62,13 +62,14 @@ vector<Course> Schedule::enter_sem_courses(int idx) {
 		string selection = "";
 		cout << "enter the course ID of the course you'd like to add (e.g cs61a):";
 		cin >> selection;
-		/* try { */ // TODO write try catch here lol
+		if (can_take(catalog[selection], idx)) { // TODO write try catch here lol
 			courses.push_back(catalog[selection]);
-		/* } catch (*) { */
-			/* cout << "\"" << selection << "\"" << " is an invalid class ID!" << endl; */
-		/* } */
+			cout << "added! " << endl;
+		} else {
+			cout << "looks like you don't have the prereqs for that one :(" << endl;
+		}
+		cout << "Enter another one? [Y/n]" << endl;
 		string tmp = "";
-		cout << "added! Enter another one? [Y/n]" << endl;
 		cin >> tmp;
 		if (tmp == "N" || tmp == "n")
 			break;
@@ -115,7 +116,7 @@ bool Schedule::can_take (Course c){
 bool Schedule::can_take (Course c, int sem_idx){
 	vector<Course> taken = {};
 	for (int i=0; i < c.prereqs.size(); i ++)
-		for (int j=0; j < sem_idx -1; j++ )
+		for (int j=0; j <= sem_idx -1; j++ )
 			for ( int k=0; k < m_sem_list[j].taking.size(); k++)
 				if ( c.prereqs[i] == m_sem_list[j].taking[k] )
 					taken.push_back(c.prereqs[i]);
