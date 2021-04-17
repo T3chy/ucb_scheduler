@@ -16,7 +16,7 @@
 #include <iostream>
 #include <string>
 #include "Schedule.h"
-#include "cs.cpp"
+#include "csv.cpp"
 using namespace std;
 
 
@@ -28,13 +28,11 @@ int main(int argc, char* argv[])
 
 	Schedule s;
 
-	unordered_map<const char *, Course> c = init_cs();
-	Semester s1 = Semester({c["cs61b"]});
-	s.add_sem(s1);
-	s.finish_sem();
-	Semester s2 = Semester({c["cs61a"]});
-	cout << s.can_take(c["cs162"]) << endl;
-	s.add_sem(s2);
+	unordered_map<string, Course> catalog = init_course_list("cs.csv");
+	cout << catalog["cs61c"].units << endl;
+	s.catalog = catalog;
+	Semester s1 = Semester({catalog["cs61b"]});
+	s.add_sem();
 
 
     return 0;

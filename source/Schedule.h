@@ -79,7 +79,7 @@ class Semester {
 
 };
 
-class Schedule { // for some reason default constructor ( or something else? ) sets sem_idx to 1 fix that
+class Schedule {
 
 	private:
 		int sem_idx;
@@ -90,10 +90,12 @@ class Schedule { // for some reason default constructor ( or something else? ) s
 		void calculate_sem_gpa();
 		void recalculate_overall_gpa();
 	public:
+		unordered_map<string, Course> catalog; //TODO make a constructor lol
 		bool can_take(Course c);
 		bool can_take(Course c, int sem_ifx);
 		float getGpa();
-		void add_sem(Semester s);
+		void add_sem(int idx);
+		vector<Course> enter_sem_courses(int idx);
 		void add_sem(); // current idx
 		void add_sem(Semester s, int idx); // future sem
 		void finish_sem();

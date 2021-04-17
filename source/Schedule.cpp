@@ -55,14 +55,40 @@ void Schedule::enter_final_grades(){
 	m_sem_list[sem_idx].sem_gpa = 4.1;
 }
 
-void Schedule::add_sem(Semester s, int idx){
+vector<Course> Schedule::enter_sem_courses(int idx) {
+	cout << "Choosing classes for semester " << idx << endl;
+	vector<Course> courses = {};
+	while (true) {
+		string selection = "";
+		cout << "enter the course ID of the course you'd like to add (e.g cs61a):";
+		cin >> selection;
+		/* try { */ // TODO write try catch here lol
+			courses.push_back(catalog[selection]);
+		/* } catch (*) { */
+			/* cout << "\"" << selection << "\"" << " is an invalid class ID!" << endl; */
+		/* } */
+		string tmp = "";
+		cout << "added! Enter another one? [Y/n]" << endl;
+		cin >> tmp;
+		if (tmp == "N" || tmp == "n")
+			break;
+	}
+	cout << "This semester's courses are: " << endl;
+	for (Course c : courses)
+		cout << c.toString() << endl;
+	return courses;
+
+
+}
+void Schedule::add_sem(int idx){
 	if (idx > m_sem_list.size() - 1)
 		throw "you've tried to reassign a semester that doesn't exist! Please use the single-argument constructor to add a new semester";
 	else
-		m_sem_list[idx] = s;
+
+		m_sem_list[idx] = enter_sem_courses(idx);
 }
-void Schedule::add_sem(Semester s){
-	m_sem_list.push_back(s);
+void Schedule::add_sem(){
+	m_sem_list.push_back(enter_sem_courses(m_sem_list.size()));
 }
 
 void Schedule::finish_sem(){
@@ -125,5 +151,5 @@ string Course::toString(){
       default:
 	 throw "Invalid course prefix";
    }
-	return tmp + to_string(course_number) + modifier;
+	return tmp + to_string(course_number) + modifier + ", " + to_string(units) + " units ";
 }

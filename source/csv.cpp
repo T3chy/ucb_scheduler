@@ -1,5 +1,3 @@
-#include "Schedule.h"
-#include "Schedule.cpp"
 
 #include <iostream>
 #include <fstream>
@@ -20,7 +18,6 @@ course_prefix string_to_course_prefix(string s) {
 	} else{
 		throw "invalid prefix!";
 	}
-	cout << "bruh 2 " << endl;
 }
 unordered_map<string, Course>  init_course_list(const char * filename){ // maybe just put this on the heap (how? dynamic size? sizeof(course) * num lines?) and return pointer
 	unordered_map <string, Course> catalog = {};
@@ -38,14 +35,9 @@ unordered_map<string, Course>  init_course_list(const char * filename){ // maybe
 
 	while (fin >> temp) {
 
-		row.clear();
 
-		// read an entire row and
-		// store it in a string variable 'line'
-		getline(fin, line);
-
-		// used for breaking words
-		stringstream s(line);
+		/* // used for breaking words */
+		stringstream s(temp);
 
 		// read every column data of a row and
 		// store it in the respetive tmp variable
@@ -57,7 +49,6 @@ unordered_map<string, Course>  init_course_list(const char * filename){ // maybe
 		std::string name = "";
 		std::vector<string> prereqs;
 		while (getline(s, word, ',')) {
-			cout << word << endl;
 			switch (colIdx++) {
 				case (0):
 					/* cout << "PREFIX " << word << endl; */
@@ -89,18 +80,10 @@ unordered_map<string, Course>  init_course_list(const char * filename){ // maybe
 		for (int i=0; i < prereqs.size(); i++)
 			prqs.push_back(catalog[prereqs[i]]);
 
-		cout << prefix + to_string(course_number) + modifier << endl;
 		catalog[prefix + to_string(course_number) + modifier]  = Course(string_to_course_prefix(prefix), course_number, modifier.c_str(), units, name.c_str(), prqs);
 
 
 
 	}
 	return catalog;
-}
-
-
-int main(){
-	unordered_map<string, Course> b = init_course_list("cs.csv");
-	cout << b["cs61a"].isUpperDivision();
-	return 0;
 }
