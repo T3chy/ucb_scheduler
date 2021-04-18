@@ -17,9 +17,6 @@ unordered_map<string, float> letter_grade_to_gpa = {\
 };
 
 
-/* Schedule::Schedule(){ */
-/* 	sem_idx = 0; */
-/* } */
 float Schedule::parse_grade_input(string input) {
 		if (letter_grade_to_gpa.find(input) != letter_grade_to_gpa.end())
 			return letter_grade_to_gpa[input];
@@ -143,6 +140,14 @@ bool Schedule::can_take (Course c, int sem_idx){
 					taken.push_back(c.prereqs[i]);
 	return taken.size() == c.prereqs.size();
 }
+float Schedule::get_upper_div_credits(course_prefix tmp) {
+	float upper_div_units = 0;
+	for (int i=0; i < m_sem_list.size(); i++ )
+		for (Course c : m_sem_list[i].taking )
+			if (c.prefix == tmp && c.isUpperDivision())
+				upper_div_units += c.units;
+	return upper_div_units;
+}
 Course::Course(course_prefix p, int c_n, char const * mod, float u, char const * m_n, vector<Course> prq = {}) {
 	prefix = p;
 	course_number = c_n;
@@ -152,6 +157,33 @@ Course::Course(course_prefix p, int c_n, char const * mod, float u, char const *
 	nocourse = false;
 	prereqs = prq;
 };
+bool Schedule::req_fulfilled(req r){
+	vector<Course> taken = {};
+	int credits = 0;
+	if (r.requirement_type != any || r.requirement_type == any_upper_div ) {
+		for (int i=0; i < m_sem_list.size(); i++)
+			for (int j=0; j < m_sem_list[j].taking.size(); j++)
+				for (int k=0; k < r.courses.size(); k++)
+					if (m_sem_list[i].taking[j] == r.courses[k])
+						taken.push_back(r.courses[k]);
+	} else {
+		if (r.requirement_type == any || r.requirement_type == any_upper_div) {
+			for (int i=0; i < m_sem_list.size(); i++)
+				for (int j=0; j < m_sem_list[j].taking.size(); j++)
+					if (( r.requirement_type == any || m_sem_list[i].taking[j].isUpperDivision()) && m_sem_list[i].taking[j].prefix == r.prefix) // ugly lmfao
+						credits += m_sem_list[j].taking[j].units;
+			return (credits >= r.n);
+		}
+	}
+	switch(r.requirement_type){
+		case(both):
+			return (r.courses == taken);
+		case(either):
+			return (r.courses.size() >= r.n);
+		default:
+			return false;
+	}
+}
 string Course::toString(){
    string tmp = "";
    switch(prefix) {
