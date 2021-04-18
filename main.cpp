@@ -33,12 +33,21 @@ int main(int argc, char* argv[])
 	s.reqs = reqs;
 	s.majors = {cs};
 	s.catalog = catalog;
-	s.summary();
-	s.add_sem();
-	s.finish_sem();
-	s.summary();
-
-
-
+	while (true){
+		string selection = "";
+		cout << "[Add] a Semester, view [Summary], [Finish] the current semester, or [Exit]" << endl;
+		cout << "Make A selection:";
+		cin >> selection; // lowercase this maybe
+	if (selection == "Add")
+		s.add_sem();
+	else if (selection == "Summary")
+		s.summary();
+	else if (selection == "Finish")
+		s.finish_sem();
+	else if (selection == "Exit")
+		break;
+	else
+		cout << "\"" << selection << "\" is not a valid command :( this is case sensitive because I (Elam) suck " << endl;
+	}
     return 0;
 }

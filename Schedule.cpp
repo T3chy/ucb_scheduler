@@ -15,6 +15,20 @@ unordered_map<string, float> letter_grade_to_gpa = {\
 	{"D-",	0.7},\
 	{"F",0},\
 };
+string prefix_to_str(course_prefix prefix){
+	string tmp = "";
+   switch(prefix) {
+      case cs:
+	 tmp = "cs";
+	 break;
+      case philo:
+	 tmp = "philo";
+	 break;
+      default:
+	 throw "Invalid course prefix";
+   }
+   return tmp;
+}
 
 
 float Schedule::parse_grade_input(string input) {
@@ -63,11 +77,15 @@ void Schedule::enter_final_grades(int idx){
 	}
 }
 void Schedule::summary(){
-	for (course_prefix p : majors )
+	cout << "SUMMARY" << endl;
+	for (course_prefix p : majors ) {
+		cout << "graduation requirements for " << prefix_to_str(p) << ":" << endl;
 		for ( req r : reqs[p] ) {
 			string fulfilled = (req_fulfilled(r) ? "COMPLETE: " : " INCOMPLETE: ");
 			cout << fulfilled << r.toString() << endl;
 		}
+	}
+	cout << "Overall GPA: " << gpa << endl;
 }
 
 vector<Course> Schedule::enter_sem_courses(int idx) {
@@ -187,20 +205,6 @@ bool Schedule::req_fulfilled(req r){
 			return false;
 	}
 }
-string prefix_to_str(course_prefix prefix){
-	string tmp = "";
-   switch(prefix) {
-      case cs:
-	 tmp = "cs";
-	 break;
-      case philo:
-	 tmp = "philo";
-	 break;
-      default:
-	 throw "Invalid course prefix";
-   }
-   return tmp;
-}
 string Course::toString(){
    string tmp = prefix_to_str(prefix);
 	return tmp + to_string(course_number) + modifier + ", " + to_string(units) + " units ";
@@ -216,9 +220,9 @@ string req::toString(){
 		switch (requirement_type){
 /* enum req_type{both, either, any_upper_div, any}; */
 			case (both):
-				return "ALL of: " + course_string;
+				return "ALL of the following: " + course_string;
 			case (either):
-				return "ANY of: " + course_string;
+				return "ANY of the following: " + course_string;
 			case (any_upper_div):
 				return to_string(n) + " upper division " + prefix_to_str(prefix) + " credits";
 			case(any):
