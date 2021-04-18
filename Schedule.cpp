@@ -35,9 +35,7 @@ void Schedule::calculate_sem_gpa(int idx){
 void Schedule::recalculate_overall_gpa(){
 	float total_units = 0;
 	float running_gpa_points = 0;
-	cout << "sem list length " << m_sem_list.size() << endl;
 	for (Semester & s : m_sem_list){
-		cout << "looping recalcualtion" << endl;
 		if ( s.taking.size() != 0 ) {
 			for (Course & c : s.taking ) {
 				total_units += c.units;
@@ -45,8 +43,6 @@ void Schedule::recalculate_overall_gpa(){
 			}
 		}
 	}
-	cout << "running gpa points " << running_gpa_points << endl;
-	cout << "total units" << total_units << endl;
 	gpa = running_gpa_points / total_units;
 }
 float Schedule::getGpa() {
@@ -65,6 +61,13 @@ void Schedule::enter_final_grades(int idx){
 			i--;
 		}
 	}
+}
+void Schedule::summary(){
+	for (course_prefix p : majors )
+		for ( req r : reqs[p] ) {
+			string fulfilled = (req_fulfilled(r) ? "COMPLETE: " : " INCOMPLETE: ");
+			cout << fulfilled << r.toString() << endl;
+		}
 }
 
 vector<Course> Schedule::enter_sem_courses(int idx) {
@@ -177,15 +180,15 @@ bool Schedule::req_fulfilled(req r){
 	}
 	switch(r.requirement_type){
 		case(both):
-			return (r.courses == taken);
+			return (r.courses.size() == taken.size());
 		case(either):
 			return (r.courses.size() >= r.n);
 		default:
 			return false;
 	}
 }
-string Course::toString(){
-   string tmp = "";
+string prefix_to_str(course_prefix prefix){
+	string tmp = "";
    switch(prefix) {
       case cs:
 	 tmp = "cs";
@@ -196,5 +199,32 @@ string Course::toString(){
       default:
 	 throw "Invalid course prefix";
    }
+   return tmp;
+}
+string Course::toString(){
+   string tmp = prefix_to_str(prefix);
 	return tmp + to_string(course_number) + modifier + ", " + to_string(units) + " units ";
+}
+string req::toString(){
+		string course_string = "";
+		course_string = courses[0].toString();
+		if ( courses.size() != 1 ) {
+			for (int i=1; i < courses.size(); i++) {
+				course_string += ", " + courses[i].toString();
+			}
+		}
+		switch (requirement_type){
+/* enum req_type{both, either, any_upper_div, any}; */
+			case (both):
+				return "ALL of: " + course_string;
+			case (either):
+				return "ANY of: " + course_string;
+			case (any_upper_div):
+				return to_string(n) + " upper division " + prefix_to_str(prefix) + " credits";
+			case(any):
+				return to_string(n) + " credits from any " + prefix_to_str(prefix) + " classes";
+			default:
+				return "???";
+
+		}
 }

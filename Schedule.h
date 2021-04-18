@@ -22,28 +22,6 @@ using namespace std;
 
 enum course_prefix {cs, philo, eecs};
 enum req_type{both, either, any_upper_div, any};
-struct req{
-	vector<Course> courses = {};
-	req_type requirement_type;
-	course_prefix prefix;
-	float n;
-	req(vector<string> c, req_type r){
-		courses = c;
-		requirement_type = r;
-		n = 1;
-	}
-	req(vector<string> c, req_type r, int cred){
-		courses = c;
-		requirement_type = r;
-		n = cred;
-	}
-	req(vector<string> c, req_type r, int cred, course_prefix cp){
-		courses = c;
-		requirement_type = r;
-		n = cred;
-		prefix = cp;
-	}
-};
 
 
 class Course {
@@ -61,10 +39,33 @@ class Course {
 		bool isUpperDivision(){return (course_number >= 100);}
 		Course(){nocourse = true;}
 		Course(course_prefix p, int c_n, char const * mod, float u, char const * m_n, vector<Course> prq);
-		bool operator ==(const Course compare_to){
+		bool operator==(const Course compare_to){
 			return (prefix == compare_to.prefix && course_number == compare_to.course_number && modifier== compare_to.modifier);
 		}
 		string toString();
+};
+struct req{
+	vector<Course> courses = {};
+	req_type requirement_type;
+	course_prefix prefix;
+	float n;
+	req(vector<Course> c, req_type r){
+		courses = c;
+		requirement_type = r;
+		n = 1;
+	}
+	req(vector<Course> c, req_type r, int cred){
+		courses = c;
+		requirement_type = r;
+		n = cred;
+	}
+	req(vector<Course> c, req_type r, int cred, course_prefix cp){
+		courses = c;
+		requirement_type = r;
+		n = cred;
+		prefix = cp;
+	}
+	string toString();
 };
 
 class Semester {
@@ -121,7 +122,8 @@ class Schedule {
 		bool req_fulfilled(req r);
 		Schedule(){sem_idx = 0;}; // make this less bad lol
 		unordered_map<string, Course> catalog; //TODO make a constructor lol
-		void print_summary();
+		unordered_map<course_prefix, vector<req>> reqs;
+		void summary();
 		float get_upper_div_credits(course_prefix tmp);
 		bool can_take(Course c);
 		bool can_take(Course c, int sem_idx);

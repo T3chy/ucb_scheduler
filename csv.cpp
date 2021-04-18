@@ -19,37 +19,6 @@ course_prefix string_to_course_prefix(string s) {
 		throw "invalid prefix!";
 	}
 }
-unordered_map<course_prefix, vector<int, vector<string>>> get_grad_requirements(){
-	unordered_map<course_prefix, vector<string>> tmp = {\
-		{
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	}
-
-
-
-
-
-
-
-
-
-
-
-};
 unordered_map<string, Course>  init_course_list(const char * filename){ // maybe just put this on the heap (how? dynamic size? sizeof(course) * num lines?) and return pointer
 	unordered_map <string, Course> catalog = {};
 
@@ -117,4 +86,8 @@ unordered_map<string, Course>  init_course_list(const char * filename){ // maybe
 
 	}
 	return catalog;
+}
+unordered_map<course_prefix, vector<req>> init_requirements(unordered_map<string, Course> catalog){
+	unordered_map<course_prefix, vector<req>> tmp = {{cs, {req({catalog["cs61a"]}, both)}}};
+	return tmp;
 }

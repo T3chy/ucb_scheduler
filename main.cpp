@@ -29,11 +29,15 @@ int main(int argc, char* argv[])
 	Schedule s;
 
 	unordered_map<string, Course> catalog = init_course_list("cs.csv");
+	unordered_map<course_prefix, vector<req>> reqs = init_requirements(catalog);
+	s.reqs = reqs;
+	s.majors = {cs};
 	s.catalog = catalog;
+	s.summary();
 	s.add_sem();
 	s.finish_sem();
-	s.add_sem();
-	s.finish_sem();
+	s.summary();
+
 
 
     return 0;

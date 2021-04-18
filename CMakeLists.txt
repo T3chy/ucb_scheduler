@@ -9,6 +9,7 @@ project("Berk_Scheduler")
 
 # file(GLOB SOURCES "*.cpp")
 add_executable("${PROJECT_NAME}" "main.cpp" "Schedule.cpp")
+file(GLOB CSV_DIR "*.csv" )
 # set_property(TARGET "${PROJECT_NAME}" PROPERTY CXX_STANDARD 17)
 
 
