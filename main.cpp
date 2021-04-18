@@ -49,5 +49,6 @@ int main(int argc, char* argv[])
 	else
 		cout << "\"" << selection << "\" is not a valid command :( this is case sensitive because I (Elam) suck " << endl;
 	}
+cout << "thanks for using!" << endl;
     return 0;
 }
