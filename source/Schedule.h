@@ -34,7 +34,6 @@ class Course {
 		vector<Course> prereqs;
 		bool isUpperDivision(){return (course_number >= 100);}
 		Course(){nocourse = true;}
-Course(course_prefix p, int c_n, char const * mod, float u, char const * m_n);
 		Course(course_prefix p, int c_n, char const * mod, float u, char const * m_n, vector<Course> prq);
 		bool operator ==(const Course compare_to){
 			return (prefix == compare_to.prefix && course_number == compare_to.course_number && modifier== compare_to.modifier);
@@ -47,7 +46,7 @@ class Semester {
 	float sem_units;
 	bool complete;
 	float sem_gpa;
-	vector<Course> taking ; // impossible to take more than 5 courses per sem at berk unless you bend the rules
+	vector<Course> taking ;
 	Semester(){
 		sem_units = 0;
 		complete = false;
@@ -58,6 +57,8 @@ class Semester {
 		complete = false;
 		sem_gpa = 0;
 		taking = t;
+		for (Course c : t)
+			sem_units += c.units;
 	}
 	string toString(){
 		string tmp = "";
@@ -84,20 +85,26 @@ class Schedule {
 	private:
 		int sem_idx;
 		float gpa;
-		void enter_final_grades();
+		void enter_final_grades(int idx);
 		vector<Semester> m_sem_list;
 		static float parse_grade_input(string input);
-		void calculate_sem_gpa();
+		void calculate_sem_gpa(int idx);
 		void recalculate_overall_gpa();
 	public:
+		Schedule(){
+			sem_idx = 0;
+
+
+		};
 		unordered_map<string, Course> catalog; //TODO make a constructor lol
 		bool can_take(Course c);
-		bool can_take(Course c, int sem_ifx);
+		bool can_take(Course c, int sem_idx);
 		float getGpa();
 		void add_sem(int idx);
 		vector<Course> enter_sem_courses(int idx);
 		void add_sem(); // current idx
 		void add_sem(Semester s, int idx); // future sem
 		void finish_sem();
+		void finish_sem(int idx);
 };
 #endif

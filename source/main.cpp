@@ -31,7 +31,9 @@ int main(int argc, char* argv[])
 	unordered_map<string, Course> catalog = init_course_list("cs.csv");
 	s.catalog = catalog;
 	s.add_sem();
+	s.finish_sem();
 	s.add_sem();
+	s.finish_sem();
 
 
     return 0;
