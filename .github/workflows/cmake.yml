@@ -29,4 +29,4 @@ jobs:
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake -s ${{runner.workspace}} --build ${{runner.workspace}}/build
+      run: cmake -s ${{runner.workspace}} --B ${{runner.workspace}}/build
